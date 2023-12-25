@@ -10,12 +10,19 @@ class ObjectSchema extends BaseSchema {
   }
 
   shape(objShape) {
-    const validatorFunc = (val) => {
-      const keys = Object.keys(val);
-      const schemaKeys = Object.keys(objShape);
-      if (keys.length !== schemaKeys.length) return false;
-      return schemaKeys.every((k) => objShape[k].isValid(val[k]));
+    const iter = (val, sh) => {
+      const objKeys = Object.keys(val);
+      return Object.keys(sh).every((k) => {
+        if (!objKeys.includes(k)) return false;
+        const shVal = sh[k];
+        if (Object.getPrototypeOf(shVal) instanceof BaseSchema) {
+          return shVal.isValid(val[k]);
+        }
+        return iter(val[k], shVal);
+      });
     };
+
+    const validatorFunc = (val) => iter(val, objShape);
     return new ObjectSchema([...this.validators, validatorFunc]);
   }
 }
