@@ -15,7 +15,7 @@ class ObjectSchema extends BaseSchema {
       return Object.keys(sh).every((k) => {
         if (!objKeys.includes(k)) return false;
         const shVal = sh[k];
-        if (Object.getPrototypeOf(shVal) instanceof BaseSchema) {
+        if (shVal instanceof BaseSchema) {
           return shVal.isValid(val[k]);
         }
         return iter(val[k], shVal);
