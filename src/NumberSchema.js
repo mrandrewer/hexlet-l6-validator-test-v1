@@ -1,7 +1,6 @@
 import BaseSchema from './BaseSchema.js';
 
 class NumberSchema extends BaseSchema {
-
   constructor(validators) {
     if (validators === undefined) {
       super([(val) => typeof val === 'number']);

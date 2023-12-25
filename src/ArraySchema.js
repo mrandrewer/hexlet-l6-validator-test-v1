@@ -11,7 +11,7 @@ class ArraySchema extends BaseSchema {
   }
 
   allIntegers() {
-    var numberSchema = new NumberSchema().isInteger();
+    const numberSchema = new NumberSchema().isInteger();
     const validatorFunc = (val) => val.every((v) => numberSchema.isValid(v));
     return new NumberSchema([...this.validators, validatorFunc]);
   }
