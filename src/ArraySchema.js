@@ -15,6 +15,11 @@ class ArraySchema extends BaseSchema {
     const validatorFunc = (val) => val.every((v) => numberSchema.isValid(v));
     return new NumberSchema([...this.validators, validatorFunc]);
   }
+
+  custom(elemValidator) {
+    const validatorFunc = (val) => val.every((v) => elemValidator(v));
+    return new NumberSchema([...this.validators, validatorFunc]);
+  }
 }
 
 export default ArraySchema;
